@@ -1,0 +1,22 @@
+name: Merge branch
+description: "Merge a branch, tag or commit to a branch in a given repository"
+author: "julbme"
+branding:
+  icon: git-merge
+  color: blue
+inputs:
+  from:
+    description: "The ref from which to create the branch (branch, tag, ref or sha)."
+    required: false
+  to:
+    description: "The target branch name."
+    required: true
+  message:
+    description: "The commit message."
+    required: false
+outputs:
+  sha:
+    description: "The merge commit SHA, or the target branch latest commit SHA if no merge is needed."
+runs:
+  using: "docker"
+  image: "Dockerfile"
