@@ -25,6 +25,7 @@ package me.julb.applications.github.actions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.CompletionException;
 
@@ -182,13 +183,16 @@ public class MergeBranchGitHubAction implements GitHubActionProvider {
         var commitRef = commitRef(name);
 
         // List of candidates for which ref is OK.
-        var candidates =
-                List.of(branchRef.toLowerCase(), tagRef.toLowerCase(), commitRef.toLowerCase(), name.toLowerCase());
+        var candidates = List.of(
+                branchRef.toLowerCase(Locale.ROOT),
+                tagRef.toLowerCase(Locale.ROOT),
+                commitRef.toLowerCase(Locale.ROOT),
+                name.toLowerCase(Locale.ROOT));
 
         // Browse existing refs
         for (GHRef ghRef : ghRepository.getRefs()) {
             // Check if the ref is in the candidates.
-            if (candidates.contains(ghRef.getRef().toLowerCase())) {
+            if (candidates.contains(ghRef.getRef().toLowerCase(Locale.ROOT))) {
                 return Optional.of(ghRef);
             }
         }

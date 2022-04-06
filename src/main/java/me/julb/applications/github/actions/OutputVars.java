@@ -43,7 +43,7 @@ enum OutputVars {
      * Default constructor.
      * @param key the key name.
      */
-    private OutputVars(String key) {
+    OutputVars(String key) {
         this.key = key;
     }
 
