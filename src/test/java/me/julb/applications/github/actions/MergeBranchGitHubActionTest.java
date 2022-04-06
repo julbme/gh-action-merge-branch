@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package me.julb.applications.github.actions;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,8 +86,7 @@ class MergeBranchGitHubActionTest {
      * @throws java.lang.Exception
      */
     @BeforeEach
-    void setUp()
-        throws Exception {
+    void setUp() throws Exception {
         githubAction = new MergeBranchGitHubAction();
         githubAction.setGhActionsKit(ghActionsKitMock);
         githubAction.setGhApi(ghApiMock);
@@ -99,8 +97,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetInputTo_thenReturnValue()
-        throws Exception {
+    void whenGetInputTo_thenReturnValue() throws Exception {
         when(this.ghActionsKitMock.getRequiredInput("to")).thenReturn("branch-to");
 
         assertThat(this.githubAction.getInputTo()).isEqualTo("branch-to");
@@ -122,8 +119,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetInputFromProvided_thenReturnValue()
-        throws Exception {
+    void whenGetInputFromProvided_thenReturnValue() throws Exception {
         when(this.ghActionsKitMock.getInput("from")).thenReturn(Optional.of("branch-name"));
 
         assertThat(this.githubAction.getInputFrom()).isEqualTo("branch-name");
@@ -135,8 +131,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetInputFromNotProvided_thenReturnDefaultValue()
-        throws Exception {
+    void whenGetInputFromNotProvided_thenReturnDefaultValue() throws Exception {
         when(this.ghActionsKitMock.getInput("from")).thenReturn(Optional.empty());
         when(this.ghActionsKitMock.getGitHubSha()).thenReturn("123456");
 
@@ -150,8 +145,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetInputMessagePresent_thenReturnValue()
-        throws Exception {
+    void whenGetInputMessagePresent_thenReturnValue() throws Exception {
         when(this.ghActionsKitMock.getInput("message")).thenReturn(Optional.of("some message"));
 
         assertThat(this.githubAction.getInputMessage()).isEqualTo(Optional.of("some message"));
@@ -163,8 +157,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetInputMessageEmpty_thenReturnEmpty()
-        throws Exception {
+    void whenGetInputMessageEmpty_thenReturnEmpty() throws Exception {
         when(this.ghActionsKitMock.getInput("message")).thenReturn(Optional.empty());
 
         assertThat(this.githubAction.getInputMessage()).isEmpty();
@@ -176,8 +169,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenConnectApi_thenVerifyOK()
-        throws Exception {
+    void whenConnectApi_thenVerifyOK() throws Exception {
         when(ghActionsKitMock.getRequiredEnv("GITHUB_TOKEN")).thenReturn("token");
         when(ghActionsKitMock.getGitHubApiUrl()).thenReturn("https://api.github.com");
 
@@ -193,8 +185,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetTargetBranchExist_thenReturnBranch()
-        throws Exception {
+    void whenGetTargetBranchExist_thenReturnBranch() throws Exception {
         var ghBranchMock = mock(GHBranch.class);
         when(ghRepositoryMock.getBranch("branch-name")).thenReturn(ghBranchMock);
 
@@ -207,8 +198,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetTargetBranchDoesNotExist_thenReturnEmpty()
-        throws Exception {
+    void whenGetTargetBranchDoesNotExist_thenReturnEmpty() throws Exception {
         when(ghRepositoryMock.getBranch("branch-name")).thenReturn(null);
 
         assertThat(this.githubAction.getToBranch("branch-name")).isEmpty();
@@ -220,8 +210,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetTargetBranchNull_thenThrowNullPointerException()
-        throws Exception {
+    void whenGetTargetBranchNull_thenThrowNullPointerException() throws Exception {
         assertThrows(NullPointerException.class, () -> this.githubAction.getToBranch(null));
     }
 
@@ -229,8 +218,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenExecuteWithCommitToMerge_thenMergeCommitCreated()
-        throws Exception {
+    void whenExecuteWithCommitToMerge_thenMergeCommitCreated() throws Exception {
         var spy = spy(this.githubAction);
 
         var ghRefFrom = mock(GHRef.class);
@@ -274,8 +262,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenExecuteWithNoCommitToMerge_thenDoNothing()
-        throws Exception {
+    void whenExecuteWithNoCommitToMerge_thenDoNothing() throws Exception {
         var spy = spy(this.githubAction);
 
         var ghRefFrom = mock(GHRef.class);
@@ -317,8 +304,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenExecuteWithFromBranchEmpty_thenThrowCompletionException()
-        throws Exception {
+    void whenExecuteWithFromBranchEmpty_thenThrowCompletionException() throws Exception {
         var spy = spy(this.githubAction);
 
         when(this.ghActionsKitMock.getGitHubRepository()).thenReturn("octocat/Hello-World");
@@ -348,8 +334,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenExecuteWithToBranchEmpty_thenThrowCompletionException()
-        throws Exception {
+    void whenExecuteWithToBranchEmpty_thenThrowCompletionException() throws Exception {
         var spy = spy(this.githubAction);
 
         var ghRefFrom = mock(GHRef.class);
@@ -383,8 +368,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetAnyGHRefExist_thenReturnRef()
-        throws Exception {
+    void whenGetAnyGHRefExist_thenReturnRef() throws Exception {
         var ghRef1 = Mockito.mock(GHRef.class);
         when(ghRef1.getRef()).thenReturn("refs/heads/main");
 
@@ -403,7 +387,9 @@ class MergeBranchGitHubActionTest {
         assertThat(this.githubAction.getAnyGHRef("branch-name")).isPresent().contains(ghRef2);
         assertThat(this.githubAction.getAnyGHRef("1.0.0")).isPresent().contains(ghRef3);
         assertThat(this.githubAction.getAnyGHRef("refs/tags/1.0.0")).isPresent().contains(ghRef3);
-        assertThat(this.githubAction.getAnyGHRef("refs/commits/123456")).isPresent().contains(ghRef4);
+        assertThat(this.githubAction.getAnyGHRef("refs/commits/123456"))
+                .isPresent()
+                .contains(ghRef4);
         assertThat(this.githubAction.getAnyGHRef("123456")).isPresent().contains(ghRef4);
 
         verify(ghRepositoryMock, times(6)).getRefs();
@@ -417,8 +403,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetAnyGHRefDoesNotExist_thenReturnEmpty()
-        throws Exception {
+    void whenGetAnyGHRefDoesNotExist_thenReturnEmpty() throws Exception {
         when(ghRepositoryMock.getRefs()).thenReturn(new GHRef[] {});
 
         assertThat(this.githubAction.getAnyGHRef("branch-name")).isEmpty();
@@ -430,8 +415,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenGetAnyGHRefNull_thenThrowNullPointerException()
-        throws Exception {
+    void whenGetAnyGHRefNull_thenThrowNullPointerException() throws Exception {
         assertThrows(NullPointerException.class, () -> this.githubAction.getAnyGHRef(null));
     }
 
@@ -447,8 +431,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenBranchRefNameNull_thenThrowNullPointerException()
-        throws Exception {
+    void whenBranchRefNameNull_thenThrowNullPointerException() throws Exception {
         assertThrows(NullPointerException.class, () -> this.githubAction.branchRef(null));
     }
 
@@ -464,8 +447,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenTagRefNameNull_thenThrowNullPointerException()
-        throws Exception {
+    void whenTagRefNameNull_thenThrowNullPointerException() throws Exception {
         assertThrows(NullPointerException.class, () -> this.githubAction.tagRef(null));
     }
 
@@ -481,8 +463,7 @@ class MergeBranchGitHubActionTest {
      * Test method.
      */
     @Test
-    void whenCommitRefNameNull_thenThrowNullPointerException()
-        throws Exception {
+    void whenCommitRefNameNull_thenThrowNullPointerException() throws Exception {
         assertThrows(NullPointerException.class, () -> this.githubAction.commitRef(null));
     }
 }
