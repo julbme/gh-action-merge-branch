@@ -1,4 +1,4 @@
-name: Merge branch
+name: Merge GitHub branch
 description: "Merge a branch, tag or commit to a branch in a given repository"
 author: "julbme"
 branding:
